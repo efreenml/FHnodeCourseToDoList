@@ -44,13 +44,51 @@ const menuOptions = [
 ];
 
 const inquirerMenu = async () => {
-
+  console.clear();
   console.log(`======================`.green);
   console.log(`Select option`.green);
   console.log(`======================\n`.green);
 
   const opt = await inquirer.prompt(menuOptions);
   return opt;
+}
+const deleteMenu = async (tasks) => {
+  let deleteOptions = [];
+  Object.keys(tasks._list).forEach(key => {
+    deleteOptions.push({
+      value: tasks._list[key].id,
+      name: `${tasks._list[key].desc}`
+    });
+  });
+  const menuDeleteOptions = [
+    {
+      type: `list`,
+      name: `option`,
+      message: `¿Cual tarea dese eliminar?`,
+      choices: deleteOptions
+      }];
+  console.log(`======================`.green);
+  console.log(`Select option to DELETE`.green);
+  console.log(`======================\n`.green);
+  const opt = await inquirer.prompt(menuDeleteOptions);
+
+  return opt.option;
+
+  //delete tasks._list[opt.option];
+}
+
+
+const confirmMessage = async (message) => {
+  const question = [
+    {
+      type: "confirm",
+      name: "ok",
+      message
+    }
+  ]
+
+  const {ok} = await inquirer.prompt(question);
+  return ok;
 }
 
 const pause = async () => {
@@ -84,7 +122,9 @@ const readInput = async (message) => {
 module.exports = {
   readInput,
   pause,
-  inquirerMenu
+  inquirerMenu,
+  deleteMenu,
+  confirmMessage
 }
 
 

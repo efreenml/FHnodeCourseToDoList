@@ -39,6 +39,30 @@ class Tasks {
     let task = new Task(desc);
     this._list[task.id] = task;
   }
+
+
+  listPendingCompletedTasks(completed = true) {
+    let counter = 1;
+    const keys = Object.keys(this._list);
+    keys.forEach((key) => {
+      if (completed) {
+        if (this._list[key].doneDate) {
+          console.log(`${counter}.- `.green + `${this._list[key].desc} :: ${this._list[key].doneDate.green}` );
+          ++counter;
+        }
+      } else {
+        if (!this._list[key].doneDate) {
+          console.log(`${counter}.- `.green + `${this._list[key].desc} :: ${"Pending".red}` );
+          ++counter;
+        }
+      }
+    })
+  }
+
+
+  deleteTask(id) {
+    delete this._list[id];
+  };
 }
 
 

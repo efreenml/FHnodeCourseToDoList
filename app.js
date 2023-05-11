@@ -5,7 +5,7 @@ require('colors');
 
 const { saveDb, readDb } = require('./helpers/db.js');
 // const { inquirerMenu } = require("./helpers/inquirer");
-const { inquirerMenu, pause, readInput } = require("./helpers/inquirer.js");
+const { inquirerMenu, pause, readInput, deleteMenu, confirmMessage } = require("./helpers/inquirer.js");
 const { Tasks } = require("./models/Tasks.cjs");
 
 
@@ -32,7 +32,25 @@ do {
       tasks.listTasks();
       // list option
       break;
-  
+    case 3:
+      console.log("option 3:");
+      tasks.listPendingCompletedTasks();
+      break;
+    case 4:
+      console.log("option 4:");
+      tasks.listPendingCompletedTasks(false);
+      break;
+    case 6:
+      console.log("option 6:");
+      const id = await deleteMenu(tasks);
+      const anwser = await confirmMessage("¿desea borrar la tarea?");
+      console.log("****************")
+      console.log(anwser);
+      if (anwser) {
+        tasks.deleteTask(id);
+        console.log("Tarea borrada con éxito".green);
+      }
+      break;
     default:
       break;
   }
